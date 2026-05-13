@@ -441,7 +441,7 @@
 
   <!-- HERO -->
   <section id="hero">
-    <p class="hero-label">4th Co-op Work Term &mdash; Winter 2026</p>
+    <p class="hero-label">4th Co-op Work Term</p>
     <h1>4th Co-op Work Term<br>at <em>Ciena</em></h1>
     <div class="hero-meta">
       <div class="meta-item">
@@ -672,22 +672,5 @@
   <footer>
     <p>Bachelor of Computing (Co-op) &mdash; University of Guelph &mdash; Work Term Report W26</p>
   </footer>
-
-  <script>
-    // Intersection observer for fade-up
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.fade-up').forEach((el, i) => {
-      el.style.transitionDelay = `${(i % 4) * 80}ms`;
-      obs.observe(el);
-    });
-  </script>
 </body>
 </html>
