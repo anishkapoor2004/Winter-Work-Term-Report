@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Co-op Work Term Report — Ciena | W26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0a0f1e;
+      --blue: #0d47a1;
+      --accent: #00c8ff;
+      --gold: #ffd166;
+      --light: #e8edf5;
+      --mid: #8898b8;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--light);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* ── BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(13,71,161,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(0,200,255,0.12) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── GRID TEXTURE ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(10,15,30,0.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.2rem;
+    }
+
+    nav ul a {
+      color: var(--mid);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 7rem 2rem 3rem;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 6rem;
+      max-width: 1000px;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--mid);
+      max-width: 540px;
+      margin-top: 1.6rem;
+      line-height: 1.8;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--white);
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin: 1rem 0 3rem;
+      opacity: 0.3;
+    }
+
+    /* ── COMPANY CARD ── */
+    .company-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .company-image-slot {
+      background: rgba(0,200,255,0.06);
+      border: 1px dashed rgba(0,200,255,0.25);
+      border-radius: 12px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--mid);
+      font-size: 0.8rem;
+      font-family: 'DM Mono', monospace;
+      text-align: center;
+      padding: 1.5rem;
+      grid-column: 1 / -1;
+    }
+
+    .company-image-slot svg {
+      opacity: 0.4;
+    }
+
+    .company-facts {
+      grid-column: 1 / -1;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .fact-box {
+      background: rgba(0,200,255,0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+
+    .fact-box .fact-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .fact-box .fact-desc {
+      font-size: 0.78rem;
+      color: var(--mid);
+      margin-top: 0.3rem;
+    }
+
+    /* ── PROSE ── */
+    .prose {
+      font-size: 1rem;
+      color: var(--light);
+      line-height: 1.85;
+      opacity: 0.9;
+    }
+
+    .goals-prose {
+      margin-bottom: 2rem;
+    }
+
+    /* ── GOALS GRID ── */
+    .goals-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .goal-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .goal-card:hover {
+      border-color: rgba(0,200,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    .goal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent), var(--blue));
+      border-radius: 3px 0 0 3px;
+    }
+
+    .goal-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .goal-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+
+    .goal-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 640px) {
+      .goal-sections { grid-template-columns: 1fr; }
+      .company-card { grid-template-columns: 1fr; }
+    }
+
+    .goal-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .goal-section-text {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+
+    .goal-reflection {
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .goal-reflection .goal-section-label { color: var(--accent); }
+
+    .goal-reflection .goal-section-text {
+      color: var(--light);
+      font-style: italic;
+    }
+
+    /* ── JOB DESC ── */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.4rem;
+    }
+
+    .tag {
+      background: rgba(0,200,255,0.08);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── CONCLUSION ── */
+    .conclusion-box {
+      background: linear-gradient(135deg, rgba(13,71,161,0.3), rgba(0,200,255,0.08));
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--mid);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      border-top: 1px solid var(--glass-border);
+      margin-top: 4rem;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* stagger children */
+    .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">Work Term Report · W26</span>
+    <ul>
+      <li><a href="#employer">Employer</a></li>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#job">Role</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-label">4th Co-op Work Term &mdash; Winter 2025</p>
+    <h1>4th Co-op Work Term<br>at <em>Ciena</em></h1>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Company</span>
+        <span class="meta-value">Ciena Corporation</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Optical Component Test Engineer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Term</span>
+        <span class="meta-value">Co-op #4 · 4 Months</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Program</span>
+        <span class="meta-value">B.Computing (Co-op), UoG</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMPLOYER -->
+  <section id="employer">
+    <div class="fade-up">
+      <p class="section-tag">§ 01 — About the Employer</p>
+      <h2>Ciena Corporation</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="company-card fade-up">
+      <!-- Image placeholder — replace src with your Ciena logo/office photo -->
+      <div style="grid-column: 1 / -1;">
+        <img src="ciena.jpeg" alt="Ciena" style="width:100%; height:260px; object-fit:contain; border-radius:12px; background:rgba(0,200,255,0.04); border:1px solid rgba(0,200,255,0.12); padding:1rem;" />
+      </div>
+
+      <div class="company-facts">
+        <p class="prose">
+          Ciena is a global networking systems, services, and software company headquartered in Hanover, Maryland. 
+          As a leader in <strong>optical networking</strong>, Ciena develops the infrastructure powering the internet's 
+          backbone — from undersea cables to enterprise data centres. Their WaveLogic coherent optical technology 
+          pushes the boundaries of transmission speed and distance, enabling service providers worldwide to meet 
+          surging bandwidth demand.
+        </p>
+        <div class="fact-grid">
+          <div class="fact-box">
+            <div class="fact-num">~9K</div>
+            <div class="fact-desc">Employees globally</div>
+          </div>
+          <div class="fact-box">
+            <div class="fact-num">90+</div>
+            <div class="fact-desc">Countries served</div>
+          </div>
+          <div class="fact-box">
+            <div class="fact-num">~$4B</div>
+            <div class="fact-desc">Annual revenue</div>
+          </div>
+          <div class="fact-box">
+            <div class="fact-num">1992</div>
+            <div class="fact-desc">Founded</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOALS -->
+  <section id="goals">
+    <div class="fade-up">
+      <p class="section-tag">§ 02 — Learning Goals & Reflections</p>
+      <h2>What I Set Out to Learn</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="goals-prose fade-up">
+      <p class="prose">
+        Going into this term, I had a clear sense of what I wanted to get out of it. This was my fourth work term, and I wanted to use that experience intentionally — to fill specific gaps I had noticed in earlier placements rather than just showing up and doing what I was asked.
+      </p>
+    </div>
+
+    <div class="goals-grid">
+
+      <!-- Goal 1 -->
+      <div class="goal-card fade-up">
+        <div class="goal-number">Goal 01 · Critical &amp; Creative Thinking</div>
+        <div class="goal-title">Getting better at solving problems I hadn't seen before</div>
+        <div class="goal-section-text" style="margin-top:0.8rem;">
+          One thing I noticed in previous terms was that I was good at solving problems I already understood, but I slowed down a lot when something was genuinely new. At Ciena, urgent requests came in constantly — often with little context and no clear playbook. My goal was to get more comfortable sitting with that ambiguity and working through it systematically, rather than waiting for someone to point me in the right direction. I also wanted to stop jumping to the first solution that came to mind and actually consider alternatives before committing.
+        </div>
+        <div class="goal-reflection">
+          <div class="goal-section-label">✦ Did I achieve it?</div>
+          <div class="goal-section-text">Yes. By the end of the term I was handling urgent requests that I would have escalated immediately at the start. Troubleshooting real hardware failures daily forced me to build a more structured way of thinking through problems, and I got a lot faster at it. Colleagues started coming to me with questions, which felt like a meaningful signal.</div>
+        </div>
+      </div>
+
+      <!-- Goal 2 -->
+      <div class="goal-card fade-up">
+        <div class="goal-number">Goal 02 · Time Management &amp; Professionalism</div>
+        <div class="goal-title">Staying organized when everything feels urgent</div>
+        <div class="goal-section-text" style="margin-top:0.8rem;">
+          Production support environments don't give you the luxury of focusing on one thing at a time. I wanted to get better at triaging — figuring out what actually needed my attention right now versus what could wait — without dropping anything. I also wanted to get more disciplined about communicating proactively when I was blocked or running behind, instead of going quiet and hoping I'd figure it out.
+        </div>
+        <div class="goal-reflection">
+          <div class="goal-section-label">✦ Did I achieve it?</div>
+          <div class="goal-section-text">Mostly yes. I got noticeably better at managing parallel tasks and meeting deadlines even during high-volume weeks. The one area I'm still working on is sending status updates earlier rather than waiting until I have something concrete to report — that's something I want to bring into my next term.</div>
+        </div>
+      </div>
+
+      <!-- Goal 3 -->
+      <div class="goal-card fade-up">
+        <div class="goal-number">Goal 03 · Written Communication</div>
+        <div class="goal-title">Writing documentation that actually gets read</div>
+        <div class="goal-section-text" style="margin-top:0.8rem;">
+          Technical writing was something I had always treated as an afterthought. My goal this term was to treat it as part of the work itself — writing incident reports, test summaries, and internal docs that people could actually understand and act on without having to ask me follow-up questions. I wanted to practice adapting the same information for different readers, since some colleagues wanted the technical details and others just needed to know the outcome.
+        </div>
+        <div class="goal-reflection">
+          <div class="goal-section-label">✦ Did I achieve it?</div>
+          <div class="goal-section-text">Yes. The number of follow-up questions I received after writing a report dropped over the course of the term, which I took as a sign that the writing was getting clearer. I also got direct feedback from my supervisor that my documentation had improved. This is a skill I'll carry into every future role.</div>
+        </div>
+      </div>
+
+      <!-- Goal 4 -->
+      <div class="goal-card fade-up">
+        <div class="goal-number">Goal 04 · Global Understanding</div>
+        <div class="goal-title">Learning how to work with people in different time zones and contexts</div>
+        <div class="goal-section-text" style="margin-top:0.8rem;">
+          I knew going in that Ciena operated across multiple continents, and I wanted to use that as an opportunity rather than just something to work around. My goal was to understand how working across time zones actually changes the way you communicate and plan — not just logistically, but in terms of expectations and norms. I also wanted to get better at collaborating with people whose technical backgrounds or communication styles were different from mine.
+        </div>
+        <div class="goal-reflection">
+          <div class="goal-section-label">✦ Did I achieve it?</div>
+          <div class="goal-section-text">Yes. Coordinating urgent requests with engineers in different regions pushed me to be more intentional about documentation and async communication — since you can't always just Slack someone and get an answer in five minutes. I came away with a much better sense of how distributed teams actually function, and what it takes to keep things moving across time zones.</div>
+        </div>
+      </div>
+
+      <!-- Goal 5 -->
+      <div class="goal-card fade-up">
+        <div class="goal-number">Goal 05 · Technological Literacy</div>
+        <div class="goal-title">Building real fluency with production tools and systems</div>
+        <div class="goal-section-text" style="margin-top:0.8rem;">
+          I wanted to go beyond surface-level familiarity with the tools I was using. In previous terms I sometimes felt like I was just following steps without fully understanding why they worked. This term I set a goal to actually understand the systems I was touching — the test equipment, the automation infrastructure, and how hardware and software interact in an optical component context — well enough to explain them to someone else and troubleshoot when things broke unexpectedly.
+        </div>
+        <div class="goal-reflection">
+          <div class="goal-section-label">✦ Did I achieve it?</div>
+          <div class="goal-section-text">Yes. By the end of the term I was independently debugging equipment issues and building automation tools without needing to look everything up or ask for help at every step. The breadth of products I worked on also forced me to pick things up quickly, which is a habit I want to keep developing going forward.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JOB DESCRIPTION -->
+  <section id="job">
+    <div class="fade-up">
+      <p class="section-tag">§ 03 — Job Description</p>
+      <h2>Optical Component Test Engineer</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="fade-up">
+      <p class="prose">
+        As an Optical Component Test Engineer on Ciena's production support team, no two days looked alike. 
+        My primary responsibility was handling <strong>urgent requests</strong> from engineers, labs, and 
+        operations teams spread across multiple continents — troubleshooting failures in optical modules, 
+        transceivers, and line cards under real production constraints.
+      </p>
+      <br>
+      <p class="prose">
+        A major focus of the role was <strong>automation</strong>: I designed and built tooling that bridged 
+        hardware test equipment with software systems, reducing manual effort on repetitive test sequences 
+        and freeing engineers to focus on higher-level analysis. Beyond coding, I was a first-line collaborator 
+        with colleagues in Asia-Pacific, Europe, and North America — coordinating across time zones to 
+        unblock critical workflows and keep production moving.
+      </p>
+      <br>
+      <p class="prose">
+        Every day brought a different product, a different failure mode, and a different person on the other 
+        end of a support ticket. That variety pushed me to build both deep technical knowledge and the 
+        communication skills to translate findings quickly for engineers who needed answers fast.
+      </p>
+      <div class="tag-list">
+        <span class="tag">Optical Networking</span>
+        <span class="tag">Test Automation</span>
+        <span class="tag">Hardware-Software Integration</span>
+        <span class="tag">Python</span>
+        <span class="tag">Global Collaboration</span>
+        <span class="tag">Incident Response</span>
+        <span class="tag">Technical Documentation</span>
+        <span class="tag">Production Support</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion">
+    <div class="fade-up">
+      <p class="section-tag">§ 04 — Conclusion</p>
+      <h2>Takeaways</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="conclusion-box fade-up">
+      <p class="prose">
+        My fourth co-op term at Ciena was the most demanding — and the most rewarding — of my undergraduate 
+        career. I entered as a software student and left as someone who can speak fluently across hardware, 
+        firmware, and software boundaries. The urgency of production support compressed years of potential 
+        learning into a single semester: I shipped automation that real engineers relied on daily, 
+        collaborated with colleagues on every continent, and learned that the clearest mark of competence 
+        is how quickly you can make someone else's problem your own.
+      </p>
+      <br>
+      <p class="prose">
+        If you take one thing from this report, let it be this: <strong>global infrastructure runs on 
+        people</strong> — on the trust between a test engineer in Ottawa and a lab technician in Japan 
+        at 2 a.m. Ciena gave me the privilege of being one of those people, and that experience will 
+        shape how I approach every technical challenge that comes next.
+      </p>
+    </div>
+
+    <br>
+    <div class="fade-up" style="margin-top:2rem;">
+      <p class="section-tag">§ 05 — Acknowledgments</p>
+      <p class="prose" style="margin-top:0.8rem;">
+        Thank you to my supervisor and the entire Ciena production support team for the trust, mentorship, 
+        and endless patience with a co-op who always had one more question. A sincere thanks to the 
+        University of Guelph Co-op program for making these experiences possible.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Bachelor of Computing (Co-op) &mdash; University of Guelph &mdash; Work Term Report W26</p>
+  </footer>
+
+  <script>
+    // Intersection observer for fade-up
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 80}ms`;
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>
